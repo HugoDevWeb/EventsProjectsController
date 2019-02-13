@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Event;
 use Illuminate\Http\Request;
 
 class EventController extends Controller
@@ -13,7 +14,9 @@ class EventController extends Controller
      */
     public function index()
     {
-        return view('events.index');
+        $events = Event::all();
+
+        return view('events.index', compact('events'));
     }
 
     /**
@@ -23,7 +26,7 @@ class EventController extends Controller
      */
     public function create()
     {
-        dd('Show the form for creating a new resource.');
+        return view('events.create');
     }
 
     /**
@@ -34,7 +37,9 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
-        dd('Store a newly created resource in storage.');
+       Event::create(['title'=>$request->title, 'description'=>$request->description ]);
+
+       return redirect(route('home'));
     }
 
     /**
@@ -45,7 +50,8 @@ class EventController extends Controller
      */
     public function show($id)
     {
-        dd('Display the specified resource.');
+        $events = Event::findOrFail($id);
+        return view('events.show', compact('events'));
     }
 
     /**

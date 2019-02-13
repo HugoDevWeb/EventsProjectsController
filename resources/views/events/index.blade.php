@@ -1,1 +1,17 @@
-<h1>PAGE EVENEMENTS</h1>
+@extends('layouts.app')
+
+@section('content')
+    <h1>{{$events->count()}} {{ str_plural('Evenement', $events->count()) }}</h1>
+
+    <a href="{{ action('EventController@create') }}">Créer un événement</a>
+
+    @if(count($events) > 0)
+        <ul>
+            @foreach($events as $event)
+               <a href="{{ action('EventController@show', $event->id) }}"> <li>{{ $event->title }}</li> </a>
+            @endforeach
+        </ul>
+    @else
+    <p>Il n'y a aucun évènements</p>
+    @endif
+@stop
