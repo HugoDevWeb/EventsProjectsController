@@ -32,20 +32,25 @@ class EventController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-       Event::create(['title'=>$request->title, 'description'=>$request->description ]);
+        $this->validate($request, [
+            "title" => "required|min:3",
+            "description" => "required|min:5",
 
-       return redirect(route('home'));
+        ]);
+        Event::create(['title' => $request->title, 'description' => $request->description]);
+
+        return redirect(route('home'));
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -57,34 +62,50 @@ class EventController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        dd('Show the form for editing the specified resource.');
+        $events = Event::findOrFail($id);
+
+        return view('events.edit', compact('events'));
+
+
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        dd('Update the specified resource in storage.');
+        $this->validate($request, [
+            "title" => "required|min:3",
+            "description" => "required|min:5",
+
+        ]);
+
+        $events = Event::findOrFail($id);
+
+        $events->update(['title' => $request->title, 'description' => $request->description]);
+
+        return redirect(route('events.show', $id));
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        dd('Remove the specified resource from storage.');
+        Event::destroy($id);
+
+        return redirect(route('home'));
     }
 }
