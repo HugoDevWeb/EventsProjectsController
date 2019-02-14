@@ -17,9 +17,9 @@
 @include('layouts.partials._nav')
 
 <div class="container">
-    @if(session()->has('message'))
-        <div class="alert alert-success">
-            {{ session()->get('message') }}
+    @if(session()->has('notification.message'))
+        <div class="alert alert-{{session('notification.type')}}">
+            {{ session()->get('notification.message') }}
         </div>
     @endif
     @yield('content')
