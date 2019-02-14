@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateEventFormRequest;
+use App\Http\Requests\UpdateEventFormRequest;
 use App\Models\Event;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class EventController extends Controller
 {
@@ -14,7 +17,7 @@ class EventController extends Controller
      */
     public function index()
     {
-        $events = Event::all();
+        $events = Event::paginate(10);
 
         return view('events.index', compact('events'));
     }
@@ -26,25 +29,24 @@ class EventController extends Controller
      */
     public function create()
     {
-        return view('events.create');
+        $events = new Event();
+        return view('events.create')->with([
+            'events' => $events,
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param CreateEventFormRequest $request
+     * @param Event $events
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateEventFormRequest $request)
     {
-        $this->validate($request, [
-            "title" => "required|min:3",
-            "description" => "required|min:5",
-
-        ]);
-        Event::create(['title' => $request->title, 'description' => $request->description]);
-
-        return redirect(route('home'));
+        $events = Event::create(['title' => $request->title, 'description' => $request->description]);
+        session()->flash('message', "Evenement #" . $events->id . " cree avec succes");
+        return redirect(route('home', $events));
     }
 
     /**
@@ -68,10 +70,7 @@ class EventController extends Controller
     public function edit($id)
     {
         $events = Event::findOrFail($id);
-
         return view('events.edit', compact('events'));
-
-
     }
 
     /**
@@ -81,18 +80,11 @@ class EventController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateEventFormRequest $request, $id)
     {
-        $this->validate($request, [
-            "title" => "required|min:3",
-            "description" => "required|min:5",
-
-        ]);
-
         $events = Event::findOrFail($id);
-
         $events->update(['title' => $request->title, 'description' => $request->description]);
-
+        session()->flash('message', "Evenement #" . $events->id . " modifié avec succes");
         return redirect(route('events.show', $id));
     }
 
@@ -100,12 +92,14 @@ class EventController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int $id
+     * @param Event $events
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        Event::destroy($id);
-
-        return redirect(route('home'));
+        $events = Event::findOrFail($id);
+        $events->delete();
+        session()->flash('message', "Evenement #" . $events->id . " supprimé avec succès");
+        return redirect(route('home', compact('events')));
     }
 }

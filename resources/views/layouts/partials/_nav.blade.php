@@ -10,7 +10,7 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link " href="{{ action('EventController@create') }}"><i class="fa fa-plus"> Créer un événement</i></a>
+                    <a class="nav-link" href="{{ action('EventController@create') }}"><i class="fa fa-plus"> Créer un événement</i></a>
                 </li>
             </ul>
         </div>
