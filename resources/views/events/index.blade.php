@@ -12,6 +12,4 @@
     @else
     <p>Il n'y a aucun évènements</p>
     @endif
-
-    <a href="{{ action('EventController@create') }}">Créer un événement</a>
 @stop

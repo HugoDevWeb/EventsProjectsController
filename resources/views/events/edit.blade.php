@@ -8,12 +8,22 @@
         {{ csrf_field() }}
         {{ method_field('put') }}
 
-        <input type="text" name="title" placeholder="Titre de l'événement" value="{{ $events->title }}" )><br>
-        {!! $errors->first('title', '<p class="error">:message</p>')  !!}
-        <textarea name="description" id="" cols="30" rows="10" placeholder="Description de l'événement">{{ $events->description }}</textarea><br>
-        {!! $errors->first('description', '<p class="error">:message</p>') !!}
+        <div class="form-group">
+            <label for="title" class="custom-control-label sr-only">Titre</label>
+            <input type="text" id="title" name="title" placeholder="Titre de l'événement" class="form-control  {{ $errors->has('title') ? 'is-invalid' : '' }}  " value="{{ $events->title }}">
+            {!! $errors->first('title', '<span class="invalid-feedback">:message</span>')  !!}
+        </div>
 
-        <input type="submit" value="Editer l'événement">
+        <div class="form-group">
+            <label for="description" class="custom-control-label sr-only">Titre</label>
+            <textarea id="description" name="description" cols="30" rows="10" placeholder="Description de l'événement" class="form-control {{ $errors->has('description') ? 'is-invalid' : '' }} ">{{ $events->description }}</textarea>
+            {!! $errors->first('description', '<span class="invalid-feedback">:message</span>') !!}
+        </div>
+
+        <div class="form-group">
+        <input type="submit" value="Editer l'événement" class="btn btn-primary btn-block">
+        </div>
+
         <a href="{{ action('EventController@index') }}">Annuler</a>
 
     </form>
