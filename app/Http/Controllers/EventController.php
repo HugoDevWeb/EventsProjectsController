@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateEventFormRequest;
 use App\Models\Event;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use MercurySeries\Flashy\Flashy;
 
 class EventController extends Controller
 {
@@ -45,7 +46,8 @@ class EventController extends Controller
     public function store(CreateEventFormRequest $request)
     {
         $events = Event::create(['title' => $request->title, 'description' => $request->description]);
-        flash("Evenement #" . $events->id . " créé avec succès", 'success');
+        flashy()->info('Evenement créé avec succès');
+        //        flash("Evenement créé avec succès", 'success');
         return redirect(route('home', $events));
     }
 
@@ -84,7 +86,8 @@ class EventController extends Controller
     {
         $events = Event::findOrFail($id);
         $events->update(['title' => $request->title, 'description' => $request->description]);
-        flash("Evenement #" . $events->id . " modifié avec succès", 'success');
+        flashy("Evenement #" . $events->id . " modifié avec succès");
+//        flash("Evenement #" . $events->id . " modifié avec succès", 'success');
         return redirect(route('events.show', $id));
     }
 
@@ -99,7 +102,10 @@ class EventController extends Controller
     {
         $events = Event::findOrFail($id);
         $events->delete();
-        flash("Evenement #" . $events->id . " supprimé avec succès", 'danger');
-        return redirect(route('home', compact('events')));
+        flashy()->error("Evenement #" . $events->id . " supprimé avec succès");
+        //flash("Evenement #" . $events->id . " supprimé avec succès", 'danger');
+        return redirect(route('home'))->with([
+            'events' => $events,
+        ]);
     }
 }

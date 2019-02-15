@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css"
           href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="{{ asset('/css/app.css') }}">
+    <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 
 
@@ -24,8 +25,8 @@
     @endif
     @yield('content')
 </div>
-
+<script src="//code.jquery.com/jquery.js"></script>
+<script src="{{ asset('/js/app.js') }}"></script>
+@include('flashy::message')
 </body>
-
-
 </html>
