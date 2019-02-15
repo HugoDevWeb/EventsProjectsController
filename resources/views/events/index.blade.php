@@ -6,7 +6,7 @@
     @if(count($events) > 0)
         <ul>
             @foreach($events as $event)
-                <a href="{{ action('EventController@show', $event->id) }}">
+                <a href="{{ action('EventController@show', $event->slug) }}">
                     <li>{{ $event->title }}</li>
                 </a>
             @endforeach

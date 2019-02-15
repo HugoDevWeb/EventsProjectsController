@@ -56,37 +56,37 @@ class EventController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int $id
+     * @param $slug
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
-        $events = Event::findOrFail($id);
+        $events = Event::where('slug', $slug)->firstorFail();
         return view('events.show', compact('events'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $id
+     * @param $slug
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($slug)
     {
-        $events = Event::findOrFail($id);
+        $events = Event::where('slug', $slug)->firstorFail();
         return view('events.edit', compact('events'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $id
+     * @param UpdateEventFormRequest $request
+     * @param $slug
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateEventFormRequest $request, $id)
+    public function update(UpdateEventFormRequest $request, $slug)
     {
-        $events = Event::findOrFail($id);
+        $events = Event::where('slug', $slug)->firstorFail();
         $events->update(['title' => $request->title,
             'description' => $request->description,
            ]);
@@ -94,7 +94,7 @@ class EventController extends Controller
         flashy("Evenement #" . $events->id . " modifié avec succès");
 //        flash("Evenement #" . $events->id . " modifié avec succès", 'success');
 
-        return redirect(route('events.show', $id));
+        return redirect(route('events.show', $slug));
     }
 
     /**
@@ -104,9 +104,9 @@ class EventController extends Controller
      * @param Event $events
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($slug)
     {
-        $events = Event::findOrFail($id);
+        $events = Event::where('slug', $slug)->firstorFail();
         $events->delete();
         flashy()->error("Evenement #" . $events->id . " supprimé avec succès");
         //flash("Evenement #" . $events->id . " supprimé avec succès", 'danger');

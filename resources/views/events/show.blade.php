@@ -6,8 +6,8 @@
     <h2>{{ $events->description }}</h2>
 
 
-    <a class="btn btn-dark" href="{{ action('EventController@edit', $events->id) }}">Modifer l'événement</a>
-    <a href="{{ action('EventController@destroy', $events->id) }}" data-method="DELETE" data-confirm="Cet événement va être supprimé" class="btn btn-danger">Supprimer</a>
+    <a class="btn btn-dark" href="{{ action('EventController@edit', $events->slug) }}">Modifer l'événement</a>
+    <a href="{{ action('EventController@destroy', $events->slug) }}" data-method="DELETE" data-confirm="Cet événement va être supprimé" class="btn btn-danger">Supprimer</a>
 
 
 

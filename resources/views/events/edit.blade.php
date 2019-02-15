@@ -3,7 +3,7 @@
 @section('content')
     <h1>Editer l'événement {{ $events->title }}</h1>
 
-    <form action="{{ action('EventController@update', $events->id) }}" method="post">
+    <form action="{{ action('EventController@update', $events->slug) }}" method="post">
 
         {{ csrf_field() }}
         {{ method_field('put') }}
