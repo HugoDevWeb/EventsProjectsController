@@ -45,7 +45,9 @@ class EventController extends Controller
      */
     public function store(CreateEventFormRequest $request)
     {
-        $events = Event::create(['title' => $request->title, 'description' => $request->description]);
+        $events = Event::create(['title' => $request->title,
+            'description' => $request->description,
+            ]);
         flashy()->info('Evenement créé avec succès');
         //        flash("Evenement créé avec succès", 'success');
         return redirect(route('home', $events));
@@ -85,9 +87,13 @@ class EventController extends Controller
     public function update(UpdateEventFormRequest $request, $id)
     {
         $events = Event::findOrFail($id);
-        $events->update(['title' => $request->title, 'description' => $request->description]);
+        $events->update(['title' => $request->title,
+            'description' => $request->description,
+           ]);
+
         flashy("Evenement #" . $events->id . " modifié avec succès");
 //        flash("Evenement #" . $events->id . " modifié avec succès", 'success');
+
         return redirect(route('events.show', $id));
     }
 
